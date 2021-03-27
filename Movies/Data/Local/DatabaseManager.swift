@@ -15,7 +15,7 @@ protocol Database {
     func saveAllMovies(list: [MovieList.Result])
     
     //  A request to get all movies from the database
-    func getAllMovies() -> Future<[Movie], Error>
+    func getAllMovies() -> Future<[MovieEntity], Error>
     
     //  A request to delete all items in the database
     func deleteAllMovies()
@@ -30,7 +30,7 @@ class DatabaseManager: Database {
         self.managedObjectContext = managedObjectContext
     }
     
-    func getAllMovies() -> Future<[Movie], Error> {
+    func getAllMovies() -> Future<[MovieEntity], Error> {
         return Future { promise in
             // Perform database operation in background thread
             self.managedObjectContext.perform {
@@ -38,7 +38,7 @@ class DatabaseManager: Database {
                 do {
                     //  Request for list of movie entity and convert it to Movie object
                     let movieEntityList = try self.managedObjectContext.fetch(fetchRequest)
-                    let listOfMovie = movieEntityList.map { $0 as! Movie }
+                    let listOfMovie = movieEntityList.map { $0 as! MovieEntity }
                     promise(.success(listOfMovie))
                 } catch let error {
                     promise(.failure(error))
@@ -59,7 +59,7 @@ class DatabaseManager: Database {
                     into: self.managedObjectContext)
                 
                 // Cast Movie Entity to Movie Object return if null
-                guard let movie = movieEntityObj as? Movie else {
+                guard let movie = movieEntityObj as? MovieEntity else {
                     return
                 }
                     
