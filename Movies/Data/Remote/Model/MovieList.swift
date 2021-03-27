@@ -17,6 +17,7 @@ struct MovieList: Codable {
     
     struct Result: Codable {
         
+        var id: Int
         var imageUrl: String
         var previewUrl: String
         var trackName: String
@@ -26,6 +27,7 @@ struct MovieList: Codable {
         var longDescription: String
         
         enum CodingKeys: String, CodingKey {
+            case id = "trackId"
             case imageUrl = "artworkUrl100"
             case previewUrl
             case trackName
