@@ -20,7 +20,7 @@
         <!--List View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" userLabel="List View Controller" customClass="ViewController" customModule="Movies" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MovieListViewController" id="BYZ-38-t0r" userLabel="List View Controller" customClass="MovieListViewController" customModule="Movies" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -34,15 +34,18 @@
                             <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="Cz8-Yx-1SS">
                                 <rect key="frame" x="20" y="123.66666666666669" width="335" height="56"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="vdq-ff-AEj"/>
+                                </connections>
                             </searchBar>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mdI-fl-3oJ" customClass="CardView" customModule="Movies" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="219.66666666666669" width="375" height="558.33333333333326"/>
                                 <subviews>
-                                    <tableView contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="aWz-Fr-KBZ">
+                                    <tableView contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="115" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="aWz-Fr-KBZ">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="558.33333333333337"/>
                                         <color key="backgroundColor" name="cardBackgroundColor"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="115" id="L4a-H7-jSQ">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="movieCell" rowHeight="115" id="L4a-H7-jSQ" customClass="MovieCell" customModule="Movies" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="375" height="115"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="L4a-H7-jSQ" id="l2J-l7-mfL">
@@ -109,16 +112,32 @@
                                                     </constraints>
                                                 </tableViewCellContentView>
                                                 <color key="backgroundColor" name="cardBackgroundColor"/>
+                                                <connections>
+                                                    <outlet property="genreLabel" destination="ppc-yK-7SZ" id="2cs-Mx-Ybq"/>
+                                                    <outlet property="movieImageView" destination="R9X-Uy-cV7" id="ZVG-P3-Aae"/>
+                                                    <outlet property="movieNameLabel" destination="zco-Vq-ZHw" id="zPf-gl-mM3"/>
+                                                    <outlet property="priceLabel" destination="CDv-su-2fR" id="qNH-1o-TAl"/>
+                                                </connections>
                                             </tableViewCell>
                                         </prototypes>
+                                        <connections>
+                                            <outlet property="dataSource" destination="BYZ-38-t0r" id="0b5-92-3sw"/>
+                                            <outlet property="delegate" destination="BYZ-38-t0r" id="QK4-Wt-Lwe"/>
+                                        </connections>
                                     </tableView>
+                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="jug-MV-aqT">
+                                        <rect key="frame" x="169" y="260.66666666666663" width="37" height="37"/>
+                                        <color key="color" name="labelTextColor"/>
+                                    </activityIndicatorView>
                                 </subviews>
                                 <color key="backgroundColor" name="cardBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="aWz-Fr-KBZ" secondAttribute="trailing" id="4ww-Be-135"/>
                                     <constraint firstItem="aWz-Fr-KBZ" firstAttribute="leading" secondItem="mdI-fl-3oJ" secondAttribute="leading" id="7o8-0W-vpV"/>
                                     <constraint firstItem="aWz-Fr-KBZ" firstAttribute="top" secondItem="mdI-fl-3oJ" secondAttribute="top" id="LCB-Re-4AY"/>
+                                    <constraint firstItem="jug-MV-aqT" firstAttribute="centerX" secondItem="mdI-fl-3oJ" secondAttribute="centerX" id="Ts6-SR-Zde"/>
                                     <constraint firstAttribute="bottom" secondItem="aWz-Fr-KBZ" secondAttribute="bottom" id="bAm-b3-rQc"/>
+                                    <constraint firstItem="jug-MV-aqT" firstAttribute="centerY" secondItem="mdI-fl-3oJ" secondAttribute="centerY" id="hfw-S2-a7n"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="topStartRadius" value="YES"/>
@@ -145,6 +164,9 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="loadingIndicator" destination="jug-MV-aqT" id="Dfm-2m-Edp"/>
+                        <outlet property="movieListTableView" destination="aWz-Fr-KBZ" id="evd-gs-eaC"/>
+                        <outlet property="searchView" destination="Cz8-Yx-1SS" id="XV2-Bg-3yk"/>
                         <segue destination="daa-yh-0jb" kind="show" id="XXe-wq-M6w"/>
                     </connections>
                 </viewController>
