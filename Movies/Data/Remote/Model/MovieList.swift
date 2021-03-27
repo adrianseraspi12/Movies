@@ -17,14 +17,14 @@ struct MovieList: Codable {
     
     struct Result: Codable {
         
-        var id: Int
-        var imageUrl: String
-        var previewUrl: String
-        var trackName: String
-        var trackPrice: Double
-        var currency: String
-        var genre: String
-        var longDescription: String
+        var id: Int = 0
+        var imageUrl: String = ""
+        var previewUrl: String = ""
+        var trackName: String = ""
+        var trackPrice: Double = 0.0
+        var currency: String = ""
+        var genre: String = ""
+        var longDescription: String = ""
         
         enum CodingKeys: String, CodingKey {
             case id = "trackId"
