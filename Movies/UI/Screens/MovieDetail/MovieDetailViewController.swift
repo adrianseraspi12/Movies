@@ -14,21 +14,41 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet weak var movieGenreLabel: UILabel!
     @IBOutlet weak var longDescriptionLabel: UILabel!
     @IBOutlet weak var previewContainerView: UIView!
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     
     var movie: MainMovies?
+    var player: AVPlayer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTextDetails()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        player?.pause()
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        setupVideoPlayer()
+        if player == nil {
+            setupVideoPlayer()
+        }
     }
     
     @IBAction func onBackPressed(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func onPlayerPressed(sender : UITapGestureRecognizer) {
+        guard let player = player else { return }
+        
+        //  Check if player is playing
+        if (player.rate != 0) && (player.error == nil) {
+            player.pause()
+        } else {
+            player.play()
+        }
     }
     
     private func setupTextDetails() {
@@ -49,13 +69,38 @@ class MovieDetailViewController: UIViewController {
             return
         }
         
+        //  Add on tap gesture on player container view
+        let gesture = UITapGestureRecognizer(target: self,
+                                             action: #selector(onPlayerPressed(sender:)))
+        previewContainerView.addGestureRecognizer(gesture)
+        
         //  Create a video player
-        let player = AVPlayer(url: videoUrl)
+        player = AVPlayer(url: videoUrl)
         let playerLayer = AVPlayerLayer(player: player)
         playerLayer.videoGravity = .resizeAspectFill
         playerLayer.frame = previewContainerView.bounds
         previewContainerView.layer.addSublayer(playerLayer)
-        player.play()
+        player?.addObserver(self,
+                            forKeyPath: "timeControlStatus",
+                            options: [.old, .new],
+                            context: nil)
+        player?.play()
+    }
+    
+    override public func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "timeControlStatus", let change = change, let newValue = change[NSKeyValueChangeKey.newKey] as? Int, let oldValue = change[NSKeyValueChangeKey.oldKey] as? Int {
+            let oldStatus = AVPlayer.TimeControlStatus(rawValue: oldValue)
+            let newStatus = AVPlayer.TimeControlStatus(rawValue: newValue)
+            if newStatus != oldStatus {
+                DispatchQueue.main.async {[weak self] in
+                    if newStatus == .playing || newStatus == .paused {
+                        self?.loadingIndicator.isHidden = true
+                    } else {
+                        self?.loadingIndicator.isHidden = false
+                    }
+                }
+            }
+        }
     }
     
 }
