@@ -197,13 +197,12 @@
 		216A35E0260CA3CA000FE936 /* Movies */ = {
 			isa = PBXGroup;
 			children = (
+				21922D43261023A100194ADB /* AppDelegate */,
 				216A3620260CA8F9000FE936 /* UI */,
 				216A361F260CA8F1000FE936 /* Data */,
 				216A361D260CA8CE000FE936 /* Resources */,
 				218C140D260F4EDA006B6D1C /* Util */,
 				216F4C57260E39A30061D8C6 /* Injection.swift */,
-				216A35E1260CA3CA000FE936 /* AppDelegate.swift */,
-				216A35E3260CA3CA000FE936 /* SceneDelegate.swift */,
 				216A35EF260CA3CA000FE936 /* Info.plist */,
 			);
 			path = Movies;
@@ -364,6 +363,15 @@
 				218C140F260F4EF1006B6D1C /* UIViewController+Extensions.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		21922D43261023A100194ADB /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				216A35E1260CA3CA000FE936 /* AppDelegate.swift */,
+				216A35E3260CA3CA000FE936 /* SceneDelegate.swift */,
+			);
+			path = AppDelegate;
 			sourceTree = "<group>";
 		};
 		5DEAA1A8A44BB080CB3F5C3D /* Pods */ = {
