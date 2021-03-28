@@ -8,7 +8,6 @@ target 'Movies' do
   # Pods for Movies
   pod 'Alamofire', '~> 5.2'
   pod 'Kingfisher', '~> 6.0'
-  pod 'Mocker', '~> 2.2.0'
 
   target 'MoviesTests' do
     inherit! :search_paths
