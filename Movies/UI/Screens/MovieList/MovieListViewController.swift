@@ -18,6 +18,7 @@ class MovieListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewmodel?.setup()
     }
     
     private func reload(data: [MainMovies]) {
@@ -38,6 +39,10 @@ extension MovieListViewController: UISearchBarDelegate {
 
 //  MARK: View
 extension MovieListViewController: View {
+    
+    func setSearch(query: String) {
+        searchView.text = query
+    }
     
     func set(state: ScreenState) {
         switch state {

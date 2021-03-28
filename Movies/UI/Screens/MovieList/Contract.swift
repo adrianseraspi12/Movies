@@ -20,12 +20,12 @@ protocol ViewModel {
     
     //  Handles the search operation
     func search(query: String)
-    
-    var searchQuery: String { get set }
 }
 
 protocol View {
     
     func set(state: ScreenState)
+    
+    func setSearch(query: String)
     
 }
