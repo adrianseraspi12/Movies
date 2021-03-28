@@ -33,7 +33,7 @@ class MovieListViewModel: ViewModel {
     }
     
     /// This function handles the getting of persisted data from the core data
-    /// and updating the state of the app (list or details)
+    /// and check the state of the app then update the viewcontroller (list or details)
     func setupPersistedData() {
         let searchQuery = self.userDefaults.string(forKey: "search_query") ?? ""
         if (searchQuery.isEmpty) { return }
@@ -104,8 +104,7 @@ class MovieListViewModel: ViewModel {
     }
     
     ///  Get the AppState in UserDefaults then
-    ///  Check if details, should show the movie
-    ///  details screen
+    ///  Check if state is details, should show the movie details screen
     private func setCurrentAppState() {
         let savedStateValue = userDefaults.string(forKey: "app_state") ?? AppState.list.rawValue
         let state = AppState(rawValue: savedStateValue)!
