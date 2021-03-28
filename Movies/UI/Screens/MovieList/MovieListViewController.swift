@@ -26,6 +26,7 @@ class MovieListViewController: UIViewController {
     }
 }
 
+//  MARK: SearchBar Delegate
 extension MovieListViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -35,6 +36,7 @@ extension MovieListViewController: UISearchBarDelegate {
     
 }
 
+//  MARK: View
 extension MovieListViewController: View {
     
     func set(state: ScreenState) {
@@ -55,6 +57,7 @@ extension MovieListViewController: View {
     
 }
 
+//  MARK: TableView Delegate/DataSource
 extension MovieListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -67,6 +70,12 @@ extension MovieListViewController: UITableViewDataSource, UITableViewDelegate {
         }
         cell.bind(movie: data[indexPath.row])
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let movieDetailVC = storyboard?.instantiateViewController(identifier: "MovieDetailViewController") as! MovieDetailViewController
+        movieDetailVC.movie = data[indexPath.row]
+        navigationController?.pushViewController(movieDetailVC, animated: true)
     }
     
 }

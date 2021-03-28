@@ -60,7 +60,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="556.33333333333337"/>
                                         <color key="backgroundColor" name="cardBackgroundColor"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="movieCell" rowHeight="115" id="L4a-H7-jSQ" customClass="MovieCell" customModule="Movies" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="movieCell" rowHeight="115" id="L4a-H7-jSQ" customClass="MovieCell" customModule="Movies" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="375" height="115"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="L4a-H7-jSQ" id="l2J-l7-mfL">
@@ -190,10 +190,10 @@
             </objects>
             <point key="canvasLocation" x="89.855072463768124" y="77.445652173913047"/>
         </scene>
-        <!--View Controller-->
+        <!--Movie Detail View Controller-->
         <scene sceneID="NfE-BK-NvO">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="daa-yh-0jb" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MovieDetailViewController" modalPresentationStyle="fullScreen" id="daa-yh-0jb" customClass="MovieDetailViewController" customModule="Movies" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kAw-lB-5e3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -202,13 +202,6 @@
                                 <rect key="frame" x="0.0" y="114" width="375" height="203"/>
                                 <color key="backgroundColor" name="cardBackgroundColor"/>
                             </view>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="back" translatesAutoresizingMaskIntoConstraints="NO" id="AAz-0o-897">
-                                <rect key="frame" x="20" y="64" width="30" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="3aX-UC-Hku"/>
-                                    <constraint firstAttribute="width" constant="30" id="CSO-nx-Jbo"/>
-                                </constraints>
-                            </imageView>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dDF-6q-7LN" customClass="CardView" customModule="Movies" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="357" width="375" height="421"/>
                                 <subviews>
@@ -280,16 +273,26 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ueh-DV-Hzb">
+                                <rect key="frame" x="20" y="64" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="4lR-Mz-QHh"/>
+                                    <constraint firstAttribute="height" constant="30" id="6C3-oU-zc6"/>
+                                </constraints>
+                                <state key="normal" image="back"/>
+                                <connections>
+                                    <action selector="onBackPressed:" destination="daa-yh-0jb" eventType="touchUpInside" id="hJ8-1F-rim"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="3Lz-YS-OA6"/>
                         <color key="backgroundColor" name="backgroundColor"/>
                         <constraints>
-                            <constraint firstItem="3Lz-YS-OA6" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="AAz-0o-897" secondAttribute="trailing" constant="20" id="5NO-N6-Yky"/>
-                            <constraint firstItem="AAz-0o-897" firstAttribute="leading" secondItem="3Lz-YS-OA6" secondAttribute="leading" constant="20" id="79o-Rn-d15"/>
                             <constraint firstItem="3Lz-YS-OA6" firstAttribute="bottom" secondItem="dDF-6q-7LN" secondAttribute="bottom" id="AAO-FW-tYl"/>
+                            <constraint firstItem="ueh-DV-Hzb" firstAttribute="leading" secondItem="3Lz-YS-OA6" secondAttribute="leading" constant="20" id="C89-fg-1JJ"/>
+                            <constraint firstItem="afH-79-IDt" firstAttribute="top" secondItem="ueh-DV-Hzb" secondAttribute="bottom" constant="20" id="I2B-H5-gdQ"/>
                             <constraint firstItem="dDF-6q-7LN" firstAttribute="top" secondItem="afH-79-IDt" secondAttribute="bottom" constant="40" id="W9u-rw-P7N"/>
-                            <constraint firstItem="AAz-0o-897" firstAttribute="top" secondItem="3Lz-YS-OA6" secondAttribute="top" constant="20" id="ZxA-hZ-uJb"/>
-                            <constraint firstItem="afH-79-IDt" firstAttribute="top" secondItem="AAz-0o-897" secondAttribute="bottom" constant="20" id="cbD-c8-s0Q"/>
+                            <constraint firstItem="ueh-DV-Hzb" firstAttribute="top" secondItem="3Lz-YS-OA6" secondAttribute="top" constant="20" id="Z0f-S7-6Dc"/>
                             <constraint firstItem="3Lz-YS-OA6" firstAttribute="trailing" secondItem="afH-79-IDt" secondAttribute="trailing" id="ptm-31-XUU"/>
                             <constraint firstItem="afH-79-IDt" firstAttribute="leading" secondItem="3Lz-YS-OA6" secondAttribute="leading" id="qnY-7I-2rZ"/>
                             <constraint firstItem="dDF-6q-7LN" firstAttribute="leading" secondItem="3Lz-YS-OA6" secondAttribute="leading" id="rXZ-VG-qfC"/>
@@ -298,10 +301,16 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Ck1-BH-KQy"/>
+                    <connections>
+                        <outlet property="longDescriptionLabel" destination="RtM-fG-9m8" id="CGV-2y-zbE"/>
+                        <outlet property="movieGenreLabel" destination="gnL-gV-YPs" id="2dm-AY-nqI"/>
+                        <outlet property="movieTitleLabel" destination="75E-ID-3lR" id="Fi6-YI-3ot"/>
+                        <outlet property="previewContainerView" destination="afH-79-IDt" id="dXy-uW-ykf"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XWS-EF-S9g" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1182" y="77"/>
+            <point key="canvasLocation" x="1181.5999999999999" y="76.847290640394093"/>
         </scene>
     </scenes>
     <resources>
