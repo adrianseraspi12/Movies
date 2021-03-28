@@ -7,8 +7,7 @@
 
 import Foundation
 
-struct MainMovies: Codable {
-    
+struct MainMovies: Codable, Equatable {
     var id: Int = -1
     var imageUrl: String = ""
     var previewUrl: String = ""
@@ -17,5 +16,4 @@ struct MainMovies: Codable {
     var currency: String = ""
     var genre: String = ""
     var longDescription: String = ""
-    
 }
