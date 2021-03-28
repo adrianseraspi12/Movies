@@ -16,6 +16,8 @@ class MovieListViewModel: ViewModel {
     private var cancellables = Set<AnyCancellable>()
     private var userDefaults: UserDefaults
     
+    private var listOfMainMovie = [MainMovies]()
+    
     init(vc: View, userDefaults: UserDefaults, api: Client, localDb: Database) {
         self.vc = vc
         self.api = api
@@ -23,8 +25,16 @@ class MovieListViewModel: ViewModel {
         self.userDefaults = userDefaults
     }
     
-    /// Get the persisted data from core data if available
-    func setup() {
+    func change(state: AppState, movieId: Int?) {
+        if (movieId != nil) {
+            userDefaults.setValue(movieId, forKey: "movie_id")
+        }
+        userDefaults.setValue(state.rawValue, forKey: "app_state")
+    }
+    
+    /// This function handles the getting of persisted data from the core data
+    /// and updating the state of the app (list or details)
+    func setupPersistedData() {
         let searchQuery = self.userDefaults.string(forKey: "search_query") ?? ""
         if (searchQuery.isEmpty) { return }
         
@@ -43,8 +53,10 @@ class MovieListViewModel: ViewModel {
                     break
                 }
             } receiveValue: { [weak self]  (movies) in
-                let listOfMainMovie = movies.map { $0.convertToMainMovies() }
-                self?.vc.set(state: .displayList(listOfMainMovie))
+                let convertedMovies = movies.map { $0.convertToMainMovies() }
+                self?.listOfMainMovie = convertedMovies
+                self?.vc.set(state: .displayList(convertedMovies))
+                self?.setCurrentAppState()
             }.store(in: &cancellables)
 
     }
@@ -85,12 +97,24 @@ class MovieListViewModel: ViewModel {
                 //  Delete all movies in the database
                 self?.localDb.deleteAllMovies()
                 
-                //  Save app state
-                self?.userDefaults.setValue(AppState.list.rawValue, forKey: "app_state")
-                
                 //  Save a new list in database
+
                 self?.localDb.saveAllMovies(list: result)
             }.store(in: &cancellables)
-
+    }
+    
+    ///  Get the AppState in UserDefaults then
+    ///  Check if details, should show the movie
+    ///  details screen
+    private func setCurrentAppState() {
+        let savedStateValue = userDefaults.string(forKey: "app_state") ?? AppState.list.rawValue
+        let state = AppState(rawValue: savedStateValue)!
+        if (state == .details) {
+            let movieId = userDefaults.integer(forKey: "movie_id")
+            guard let movie = listOfMainMovie.filter({ $0.id == movieId }).first else {
+                return
+            }
+            vc.showMovieDetails(movie: movie)
+        }
     }
 }

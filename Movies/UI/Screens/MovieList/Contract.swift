@@ -16,16 +16,25 @@ enum ScreenState: Equatable {
 protocol ViewModel {
     
     //  Setting up the view state. Check persist data
-    func setup()
+    func setupPersistedData()
     
     //  Handles the search operation
     func search(query: String)
+    
+    //  Handles changing the app state and save it to UserDefaults
+    //  When state is details, movieId should be saved
+    func change(state: AppState, movieId: Int?)
 }
 
 protocol View {
     
+    //  Change the view state
     func set(state: ScreenState)
     
+    //  Set the searchBar text
     func setSearch(query: String)
+    
+    //  Open Movie Details Screen
+    func showMovieDetails(movie: MainMovies)
     
 }

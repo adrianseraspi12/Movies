@@ -18,7 +18,12 @@ class MovieListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewmodel?.setup()
+        viewmodel?.setupPersistedData()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewmodel?.change(state: .list, movieId: nil)
     }
     
     private func reload(data: [MainMovies]) {
@@ -42,6 +47,12 @@ extension MovieListViewController: View {
     
     func setSearch(query: String) {
         searchView.text = query
+    }
+    
+    func showMovieDetails(movie: MainMovies) {
+        let movieDetailVC = storyboard?.instantiateViewController(identifier: "MovieDetailViewController") as! MovieDetailViewController
+        movieDetailVC.movie = movie
+        navigationController?.pushViewController(movieDetailVC, animated: true)
     }
     
     func set(state: ScreenState) {
@@ -78,9 +89,9 @@ extension MovieListViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let movieDetailVC = storyboard?.instantiateViewController(identifier: "MovieDetailViewController") as! MovieDetailViewController
-        movieDetailVC.movie = data[indexPath.row]
-        navigationController?.pushViewController(movieDetailVC, animated: true)
+        let movie = data[indexPath.row]
+        viewmodel?.change(state: .details, movieId: movie.id)
+        showMovieDetails(movie: movie)
     }
     
 }
