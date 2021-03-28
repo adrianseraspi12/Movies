@@ -82,16 +82,12 @@ class DatabaseManager: Database {
     }
     
     func deleteAllMovies() {
-        self.managedObjectContext.perform {
-        //  Retrieve fetch request of movie entity
+        self.managedObjectContext.performAndWait {
+            //  Retrieve fetch request of movie entity
             do {
                 //  Request for list of movie entity and cast to NSManagedObject
-                let movieEntityList = try self.managedObjectContext.fetch(Movie.fetchRequest()) as [NSManagedObject]
-                
-                for item in movieEntityList {
-                    //  delete item
-                    self.managedObjectContext.delete(item)
-                }
+                let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: Movie.fetchRequest())
+                try self.managedObjectContext.execute(batchDeleteRequest)
             } catch let error {
                 print(error)
             }
