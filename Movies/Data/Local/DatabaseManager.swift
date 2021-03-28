@@ -15,7 +15,7 @@ protocol Database {
     func saveAllMovies(list: [MovieList.Result])
     
     //  A request to get all movies from the database
-    func getAllMovies() -> Future<[MovieEntity], Error>
+    func getAllMovies() -> AnyPublisher<[Movie], Error>
     
     //  A request to delete all items in the database
     func deleteAllMovies()
@@ -24,22 +24,26 @@ protocol Database {
 
 class DatabaseManager: Database {
     
-    var managedObjectContext: NSManagedObjectContext
+    private var managedObjectContext: NSManagedObjectContext
+    private var persistentContainer: NSPersistentContainer
     
-    init(managedObjectContext: NSManagedObjectContext) {
-        self.managedObjectContext = managedObjectContext
+    init(persistentContainer: NSPersistentContainer) {
+        self.persistentContainer = persistentContainer
+        self.managedObjectContext = persistentContainer.viewContext
     }
     
-    func getAllMovies() -> Future<[MovieEntity], Error> {
+    func getAllMovies() -> AnyPublisher<[Movie], Error> {
+        //  Convert the Future to AnyPublisher
+        return getAllMoviesFromLocal().eraseToAnyPublisher()
+    }
+    
+    func getAllMoviesFromLocal() -> Future<[Movie], Error> {
         return Future { promise in
-            // Perform database operation in background thread
             self.managedObjectContext.perform {
-                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Movie")
                 do {
                     //  Request for list of movie entity and convert it to Movie object
-                    let movieEntityList = try self.managedObjectContext.fetch(fetchRequest)
-                    let listOfMovie = movieEntityList.map { $0 as! MovieEntity }
-                    promise(.success(listOfMovie))
+                    let movieEntityList = try self.managedObjectContext.fetch(Movie.fetchRequest()) as [Movie]
+                    promise(.success(movieEntityList))
                 } catch let error {
                     promise(.failure(error))
                 }
@@ -50,57 +54,43 @@ class DatabaseManager: Database {
     }
     
     func saveAllMovies(list: [MovieList.Result]) {
-        // Perform database operation in background thread
-        self.managedObjectContext.perform {
+        persistentContainer.performBackgroundTask { (context) in
             for item in list {
                 // Get Movie Entity
-                let movieEntityObj = NSEntityDescription.insertNewObject(
+                let movie = NSEntityDescription.insertNewObject(
                     forEntityName: "Movie",
-                    into: self.managedObjectContext)
-                
-                // Cast Movie Entity to Movie Object return if null
-                guard let movie = movieEntityObj as? MovieEntity else {
-                    return
-                }
-                    
+                    into: context) as! Movie
+            
                 //  Set values for movie
-                movie.set(id: item.id,
-                            imageUrl: item.imageUrl,
-                            previewUrl: item.previewUrl,
-                            trackName: item.trackName,
-                            currency: item.currency,
-                            genre: item.genre,
-                            longDescription: item.longDescription)
+                movie.id = Int32(item.id)
+                movie.currency = item.currency
+                movie.genre = item.genre
+                movie.imageUrl = item.imageUrl
+                movie.longDescription = item.longDescription
+                movie.name = item.trackName
+                movie.previewUrl = item.previewUrl
+                movie.trackPrice = item.trackPrice
             }
-                
+            
             //  Save the object if there's a change in the database
-            //  Call promise to return the state of the operation
-            if self.managedObjectContext.hasChanges {
-                do {
-                    try self.managedObjectContext.save()
-                } catch let error as NSError {
-                    print(error)
-                }
+            do {
+                try context.save()
+            } catch {
+                print(error)
             }
-                
-            //  Reset the context to clear up cache
-            self.managedObjectContext.reset()
         }
     }
     
     func deleteAllMovies() {
-        // Perform database operation in background thread
         self.managedObjectContext.perform {
         //  Retrieve fetch request of movie entity
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Movie")
             do {
                 //  Request for list of movie entity and cast to NSManagedObject
-                let movieEntityList = try self.managedObjectContext.fetch(fetchRequest).map { $0 as? NSManagedObject }
+                let movieEntityList = try self.managedObjectContext.fetch(Movie.fetchRequest()) as [NSManagedObject]
+                
                 for item in movieEntityList {
-                    if let item = item {
-                        //  Delete the item
-                        self.managedObjectContext.delete(item)
-                    }
+                    //  delete item
+                    self.managedObjectContext.delete(item)
                 }
             } catch let error {
                 print(error)
@@ -109,5 +99,5 @@ class DatabaseManager: Database {
             self.managedObjectContext.reset()
         }
     }
-    
+
 }
