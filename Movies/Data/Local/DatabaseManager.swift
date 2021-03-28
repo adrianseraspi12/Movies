@@ -41,8 +41,12 @@ class DatabaseManager: Database {
         return Future { promise in
             self.managedObjectContext.perform {
                 do {
+                    //  Sort the movie entity by id in ascending order
+                    let request: NSFetchRequest<Movie> = Movie.fetchRequest()
+                    request.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
+                    
                     //  Request for list of movie entity and convert it to Movie object
-                    let movieEntityList = try self.managedObjectContext.fetch(Movie.fetchRequest()) as [Movie]
+                    let movieEntityList = try self.managedObjectContext.fetch(request) as [Movie]
                     promise(.success(movieEntityList))
                 } catch let error {
                     promise(.failure(error))
@@ -55,6 +59,9 @@ class DatabaseManager: Database {
     
     func saveAllMovies(list: [MovieList.Result]) {
         persistentContainer.performBackgroundTask { (context) in
+            //  This will be the id of the movie entity
+            var index = 0
+            
             for item in list {
                 // Get Movie Entity
                 let movie = NSEntityDescription.insertNewObject(
@@ -62,7 +69,7 @@ class DatabaseManager: Database {
                     into: context) as! Movie
             
                 //  Set values for movie
-                movie.id = Int32(item.id)
+                movie.id = Int32(index)
                 movie.currency = item.currency
                 movie.genre = item.genre
                 movie.imageUrl = item.imageUrl
@@ -70,6 +77,9 @@ class DatabaseManager: Database {
                 movie.name = item.trackName
                 movie.previewUrl = item.previewUrl
                 movie.trackPrice = item.trackPrice
+                
+                //  Increment the id by 1
+                index+=1
             }
             
             //  Save the object if there's a change in the database
