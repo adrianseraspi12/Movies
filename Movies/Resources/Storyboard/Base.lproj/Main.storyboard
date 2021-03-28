@@ -41,23 +41,23 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Movies" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7A1-7C-Mbe">
-                                <rect key="frame" x="20" y="64" width="109" height="39.666666666666657"/>
+                                <rect key="frame" x="20" y="64" width="109" height="41.666666666666657"/>
                                 <fontDescription key="fontDescription" name="ProximaNova-Bold" family="Proxima Nova" pointSize="34"/>
                                 <color key="textColor" name="labelTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="Cz8-Yx-1SS">
-                                <rect key="frame" x="20" y="123.66666666666669" width="335" height="56"/>
+                                <rect key="frame" x="20" y="125.66666666666669" width="335" height="56"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="vdq-ff-AEj"/>
                                 </connections>
                             </searchBar>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mdI-fl-3oJ" customClass="CardView" customModule="Movies" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="219.66666666666669" width="375" height="558.33333333333326"/>
+                                <rect key="frame" x="0.0" y="221.66666666666669" width="375" height="556.33333333333326"/>
                                 <subviews>
                                     <tableView contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="115" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="aWz-Fr-KBZ">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="558.33333333333337"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="556.33333333333337"/>
                                         <color key="backgroundColor" name="cardBackgroundColor"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="movieCell" rowHeight="115" id="L4a-H7-jSQ" customClass="MovieCell" customModule="Movies" customModuleProvider="target">
@@ -141,7 +141,7 @@
                                         </connections>
                                     </tableView>
                                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="jug-MV-aqT">
-                                        <rect key="frame" x="169" y="260.66666666666663" width="37" height="37"/>
+                                        <rect key="frame" x="169" y="259.66666666666663" width="37" height="37"/>
                                         <color key="color" name="labelTextColor"/>
                                     </activityIndicatorView>
                                 </subviews>
@@ -200,7 +200,16 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="afH-79-IDt">
                                 <rect key="frame" x="0.0" y="114" width="375" height="203"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="PoK-9F-Og1">
+                                        <rect key="frame" x="169" y="83" width="37" height="37"/>
+                                    </activityIndicatorView>
+                                </subviews>
                                 <color key="backgroundColor" name="cardBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="PoK-9F-Og1" firstAttribute="centerY" secondItem="afH-79-IDt" secondAttribute="centerY" id="8K4-Ci-f5G"/>
+                                    <constraint firstItem="PoK-9F-Og1" firstAttribute="centerX" secondItem="afH-79-IDt" secondAttribute="centerX" id="Knz-u6-U0O"/>
+                                </constraints>
                             </view>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dDF-6q-7LN" customClass="CardView" customModule="Movies" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="357" width="375" height="421"/>
@@ -209,22 +218,22 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="421"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nib-h7-tgR">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="580"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="584.66666666666663"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Justice League" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="75E-ID-3lR">
-                                                        <rect key="frame" x="20" y="10" width="335" height="39.666666666666664"/>
+                                                        <rect key="frame" x="20" y="10" width="335" height="41.666666666666664"/>
                                                         <fontDescription key="fontDescription" name="ProximaNova-Bold" family="Proxima Nova" pointSize="34"/>
                                                         <color key="textColor" name="labelTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Action" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gnL-gV-YPs">
-                                                        <rect key="frame" x="20" y="54.666666666666686" width="335" height="20"/>
+                                                        <rect key="frame" x="20" y="56.666666666666686" width="335" height="21"/>
                                                         <fontDescription key="fontDescription" name="ProximaNova-Regular" family="Proxima Nova" pointSize="17"/>
                                                         <color key="textColor" name="labelTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RtM-fG-9m8">
-                                                        <rect key="frame" x="20" y="84.666666666666714" width="335" height="495.33333333333326"/>
+                                                        <rect key="frame" x="20" y="87.666666666666686" width="335" height="497.00000000000006"/>
                                                         <string key="text">Zack Snyder’s Justice League, often referred to as the “Snyder Cut”, is the 2021 director’s  cut of the 2017 American superhero film  Justice League. It presents Justice League the fifth film of the DC Extended Universe  (DCEU) and based on the DC Comics. Zack Snyder’s Justice League, often referred to as the “Snyder Cut”, is the 2021 director’s  cut of the 2017 American superhero film  Justice League. It presents Justice League the fifth film of the DC Extended Universe  (DCEU) and based on the DC Comics. Zack Snyder’s Justice League, often referred to as the “Snyder Cut”, is the 2021 director’s  cut of the 2017 American superhero film  Justice League. It presents Justice League the fifth film of the DC Extended Universe  (DCEU) and based on the DC Comics. Zack Snyder’s Justice League, often referred to as the “Snyder Cut”, is the 2021 director’s  cut of the 2017 American superhero film  Justice League. It presents Justice League the fifth film of the DC Extended Universe  (DCEU) and based on the DC Comics  </string>
                                                         <fontDescription key="fontDescription" name="ProximaNova-Regular" family="Proxima Nova" pointSize="17"/>
                                                         <color key="textColor" name="labelTextColor"/>
@@ -302,6 +311,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Ck1-BH-KQy"/>
                     <connections>
+                        <outlet property="loadingIndicator" destination="PoK-9F-Og1" id="L9U-qX-crP"/>
                         <outlet property="longDescriptionLabel" destination="RtM-fG-9m8" id="CGV-2y-zbE"/>
                         <outlet property="movieGenreLabel" destination="gnL-gV-YPs" id="2dm-AY-nqI"/>
                         <outlet property="movieTitleLabel" destination="75E-ID-3lR" id="Fi6-YI-3ot"/>
