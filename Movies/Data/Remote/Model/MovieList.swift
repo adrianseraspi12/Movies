@@ -40,3 +40,18 @@ struct MovieList: Codable {
     }
     
 }
+
+extension MovieList.Result {
+    
+    func convertToMainMovies() -> MainMovies {
+        return MainMovies(id: self.id,
+                          imageUrl: self.imageUrl,
+                          previewUrl: self.previewUrl,
+                          trackName: self.trackName,
+                          trackPrice: self.trackPrice,
+                          currency: self.currency,
+                          genre: self.genre,
+                          longDescription: self.longDescription)
+    }
+    
+}
