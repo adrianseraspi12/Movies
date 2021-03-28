@@ -13,7 +13,7 @@ protocol Client {
     
     //  A request to search for a movie in iTunes
     func requestSearchMovies(query: String,
-                             country: Country) -> Future<[MovieList.Result], AFError>
+                             country: Country) -> AnyPublisher<[MovieList.Result], AFError>
     
 }
 
@@ -26,8 +26,7 @@ class APIClient: Client {
         self.sessionManager = sessionManager
     }
     
-    func requestSearchMovies(query: String, country: Country) -> Future<[MovieList.Result], AFError> {
-        
+    func requestSearchMovies(query: String, country: Country) -> AnyPublisher<[MovieList.Result], AFError> {
         //  Create a parameters for api client
         var params = Parameters()
         params["term"] = query
@@ -38,9 +37,18 @@ class APIClient: Client {
         let request = sessionManager.request(createUrl(withPath: "search"),
                                              parameters: params)
         
-        ///  Using combine framework
-        ///  Use future to produce a value for success or fail
-        ///  Execute the request in background thread (global())
+        //  Receive the request on Main Thread
+        return requestSearchMovieFromServer(query: query, country: country, request: request)
+            .receive(on: DispatchQueue.main)
+            .eraseToAnyPublisher()
+    }
+    
+    ///  Using combine framework
+    ///  Use future to produce a value for success or fail
+    ///  Execute the request in background thread (global())
+    private func requestSearchMovieFromServer(query: String,
+                                              country: Country,
+                                              request: DataRequest) -> Future<[MovieList.Result], AFError> {
         return Future { promise in
             request.responseDecodable(
                 of: MovieList.self,
