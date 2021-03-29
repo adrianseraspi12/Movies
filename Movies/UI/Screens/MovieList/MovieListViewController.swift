@@ -49,10 +49,10 @@ extension MovieListViewController: View {
         searchView.text = query
     }
     
-    func showMovieDetails(movie: MainMovies) {
+    func showMovieDetails(movie: MainMovies, animated: Bool) {
         let movieDetailVC = storyboard?.instantiateViewController(identifier: "MovieDetailViewController") as! MovieDetailViewController
         movieDetailVC.movie = movie
-        navigationController?.pushViewController(movieDetailVC, animated: true)
+        navigationController?.pushViewController(movieDetailVC, animated: animated)
     }
     
     func set(state: ScreenState) {
@@ -91,7 +91,7 @@ extension MovieListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let movie = data[indexPath.row]
         viewmodel?.change(state: .details, movieId: movie.id)
-        showMovieDetails(movie: movie)
+        showMovieDetails(movie: movie, animated: true)
     }
     
 }

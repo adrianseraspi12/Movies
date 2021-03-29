@@ -35,6 +35,6 @@ protocol View {
     func setSearch(query: String)
     
     //  Open Movie Details Screen
-    func showMovieDetails(movie: MainMovies)
+    func showMovieDetails(movie: MainMovies, animated: Bool)
     
 }
