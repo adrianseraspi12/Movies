@@ -12,7 +12,7 @@ import CoreData
 protocol Database {
     
     //  A request to save all movie in database
-    func saveAllMovies(list: [MovieList.Result])
+    func saveAllMovies(list: [MainMovies])
     
     //  A request to get all movies from the database
     func getAllMovies() -> AnyPublisher<[Movie], Error>
@@ -57,11 +57,8 @@ class DatabaseManager: Database {
         }
     }
     
-    func saveAllMovies(list: [MovieList.Result]) {
+    func saveAllMovies(list: [MainMovies]) {
         persistentContainer.performBackgroundTask { (context) in
-            //  This will be the id of the movie entity
-            var index = 0
-            
             for item in list {
                 // Get Movie Entity
                 let movie = NSEntityDescription.insertNewObject(
@@ -69,7 +66,7 @@ class DatabaseManager: Database {
                     into: context) as! Movie
             
                 //  Set values for movie
-                movie.id = Int32(index)
+                movie.id = Int32(item.id)
                 movie.currency = item.currency
                 movie.genre = item.genre
                 movie.imageUrl = item.imageUrl
@@ -77,12 +74,9 @@ class DatabaseManager: Database {
                 movie.name = item.trackName
                 movie.previewUrl = item.previewUrl
                 movie.trackPrice = item.trackPrice
-                
-                //  Increment the id by 1
-                index+=1
             }
             
-            //  Save the object if there's a change in the database
+            //  Save the object database
             do {
                 try context.save()
             } catch {
