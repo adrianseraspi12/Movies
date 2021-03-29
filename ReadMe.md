@@ -1,6 +1,22 @@
 ## Goal
 Create a master-detail application that contains at least one dependency. This application should display a list of items obtained from an iTunes Search API and show a detailed view for each item. 
 
+## Getting Started
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
+
+### Prerequisites
+
+#### Cocoapods
+
+Before you could build and run the project you need to install the cocoapod dependencies. Assuming you aleady have installed cocoapods. Open a terminal at the root of the project and execute the command.
+
+```
+$ pod install
+```
+
+After everything is installed locate the generated workspace file and open the project using that to include the pod project.
+
 ## Features
 - Search and show list of movies from iTunes
 - View movie details
