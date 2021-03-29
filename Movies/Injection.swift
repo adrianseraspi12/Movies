@@ -28,8 +28,8 @@ class Injection {
     }
     
     static func provideDatabaseManager(appDelegate: AppDelegate) -> DatabaseManager {
-        let managedContext = appDelegate.persistentContainer.viewContext
-        return DatabaseManager(managedObjectContext: managedContext)
+        let persistentContainer = appDelegate.persistentContainer
+        return DatabaseManager(persistentContainer: persistentContainer)
     }
     
 }

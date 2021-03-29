@@ -17,15 +17,17 @@ struct MovieList: Codable {
     
     struct Result: Codable {
         
-        var imageUrl: String
-        var previewUrl: String
-        var trackName: String
-        var trackPrice: Double
-        var currency: String
-        var genre: String
-        var longDescription: String
+        var id: Int = 0
+        var imageUrl: String = ""
+        var previewUrl: String = ""
+        var trackName: String = ""
+        var trackPrice: Double = 0.0
+        var currency: String = ""
+        var genre: String = ""
+        var longDescription: String = ""
         
         enum CodingKeys: String, CodingKey {
+            case id = "trackId"
             case imageUrl = "artworkUrl100"
             case previewUrl
             case trackName
@@ -35,6 +37,21 @@ struct MovieList: Codable {
             case longDescription
         }
         
+    }
+    
+}
+
+extension MovieList.Result {
+    
+    func convertToMainMovies(newId: Int) -> MainMovies {
+        return MainMovies(id: newId,
+                          imageUrl: self.imageUrl,
+                          previewUrl: self.previewUrl,
+                          trackName: self.trackName,
+                          trackPrice: self.trackPrice,
+                          currency: self.currency,
+                          genre: self.genre,
+                          longDescription: self.longDescription)
     }
     
 }
