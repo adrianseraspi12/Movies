@@ -43,8 +43,8 @@ struct MovieList: Codable {
 
 extension MovieList.Result {
     
-    func convertToMainMovies() -> MainMovies {
-        return MainMovies(id: self.id,
+    func convertToMainMovies(newId: Int) -> MainMovies {
+        return MainMovies(id: newId,
                           imageUrl: self.imageUrl,
                           previewUrl: self.previewUrl,
                           trackName: self.trackName,

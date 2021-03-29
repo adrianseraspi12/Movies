@@ -87,9 +87,14 @@ class MovieListViewModel: ViewModel {
                 }
             } receiveValue: { [weak self] (result) in
                 //  Convert the MovieList.Result to MainMovie
-                let mainMovieList = result.map {
-                    $0.convertToMainMovies()
+                let mainMovieList = result.enumerated().map { it -> MainMovies in
+                    //  Setting the index as id
+                    //  This will be used in getting the list from the database
+                    //  Database will sort it by id to keep the position of the list
+                    let id = it.offset
+                    return it.element.convertToMainMovies(newId: id)
                 }
+                self?.listOfMainMovie = mainMovieList
                 
                 //  Update the view and display the list
                 self?.vc.set(state: .displayList(mainMovieList))
@@ -98,8 +103,7 @@ class MovieListViewModel: ViewModel {
                 self?.localDb.deleteAllMovies()
                 
                 //  Save a new list in database
-
-                self?.localDb.saveAllMovies(list: result)
+                self?.localDb.saveAllMovies(list: mainMovieList)
             }.store(in: &cancellables)
     }
     
@@ -113,7 +117,7 @@ class MovieListViewModel: ViewModel {
             guard let movie = listOfMainMovie.filter({ $0.id == movieId }).first else {
                 return
             }
-            vc.showMovieDetails(movie: movie)
+            vc.showMovieDetails(movie: movie, animated: false)
         }
     }
 }
