@@ -5,7 +5,7 @@ Create a master-detail application that contains at least one dependency. This a
 - Search and show list of movies from iTunes
 - View movie details
 - Light/Dark mode
-- Data persistence
+- Last Screen is saved (Data Persistence)
 
 ## UI/UX Design
 [Movies Prototype](https://xd.adobe.com/view/05adde8c-2560-4f87-9a5c-0f4298546866-50fe/)
@@ -13,7 +13,7 @@ Create a master-detail application that contains at least one dependency. This a
 **Light Theme**
 * Background Color - #F9F9F9
 * Card Background Color - #FFFFFF
-Text Color - #000000
+* Text Color - #000000
 
 **Dark Theme**
 * Background Color - #050505
@@ -84,12 +84,12 @@ protocol Client {
 }
 ```
 ### DatabaseManager
-This is the class that handles the local database operation and it used by `MovieListViewModel`. `Combine` framework is also implemented here. We return the data by publisher so that the `MovieListViewModel` will listen to any changes in the local database. The `DatabaseManager` conforms to `Database`.
+This is the class that handles the local database operation and it used by `MovieListViewModel`. `Combine` framework is also implemented here. The function return the data via publisher. The `DatabaseManager` conforms to `Database`.
 ```
 protocol Database {
     
     //  A request to save all movie in database
-    func saveAllMovies(list: [MovieList.Result])
+    func saveAllMovies(list: [MainMovies])
     
     //  A request to get all movies from the database
     func getAllMovies() -> AnyPublisher<[Movie], Error>
@@ -101,7 +101,9 @@ protocol Database {
 ```
 
 ### Persistence
-`Core Data` is used to save the data that received from the api. The `DatabaseManager` handles the interaction with the `Core Data` and operates the `get, save, delete` method. Whenever we received a data from api via search, First we delete the old data that has been saved last time then we save a new set of list. Below are the attributes that is being saved in the database.
+Persistence takes place by saving the app current screen before it closes then restore the last screen when the app restart.
+
+`Core Data` is used to save the data that received from the api. The `DatabaseManager` handles the interaction with the `Core Data` and operates the `get, save, delete` method. Whenever the app received a data from api via search, Delete the old data that has been saved last time then save a new set of list. Below are the attributes that is being saved in the database.
 
 | Attribute Name |  Type      |
 |     :----      |   :----:   |
